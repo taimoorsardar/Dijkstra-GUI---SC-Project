@@ -6,18 +6,19 @@ import java.awt.*;
 public class Main {
 
     public static void main(String[] args) {
+        // Set the system look and feel
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (Exception e) {  }
+        } catch (UnsupportedLookAndFeelException | InstantiationException | IllegalAccessException | ClassNotFoundException e) {
+            // Handle the look and feel exception (optional)
+            e.printStackTrace();
+        }
 
-        JFrame j = new JFrame();
-        j.setTitle("Dijkstra Algorithm");
-
-        j.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        j.setSize(new Dimension(900, 600));
-        j.add(new MainWindow());
-        j.setVisible(true);
-
+        // Create and configure the main JFrame
+        JFrame mainWindowFrame = new JFrame("Dijkstra Algorithm");
+        mainWindowFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        mainWindowFrame.setSize(new Dimension(900, 600));
+        mainWindowFrame.add(new MainWindow());
+        mainWindowFrame.setVisible(true);
     }
-
 }
