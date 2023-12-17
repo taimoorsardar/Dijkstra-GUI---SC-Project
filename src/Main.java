@@ -3,8 +3,16 @@ import gui.MainWindow;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * The main class responsible for initializing and launching the Dijkstra Algorithm application.
+ */
 public class Main {
 
+    /**
+     * The main entry point for the application.
+     *
+     * @param args Command-line arguments (unused).
+     */
     public static void main(String[] args) {
         // Set the system look and feel
         try {
