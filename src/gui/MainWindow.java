@@ -12,10 +12,15 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.Objects;
 
+/**
+ * The main window of the Dijkstra Shortest Path Visualizer application.
+ * This window contains the graph panel, buttons for actions, and informational labels.
+ */
 public class MainWindow extends JPanel {
 
     private static final long serialVersionUID = 1L;
 
+    // Constants for panel and scroll pane dimensions
     private static final int PANEL_WIDTH = 9000;
     private static final int PANEL_HEIGHT = 4096;
     private static final int SCROLL_PANE_WIDTH = 750;
@@ -24,12 +29,20 @@ public class MainWindow extends JPanel {
     private Graph graph;
     private GraphPanel graphPanel;
 
+    /**
+     * Constructs the main window with the layout and initializes the graph panel.
+     * Also sets up buttons for actions.
+     */
     public MainWindow() {
         super.setLayout(new BorderLayout());
         initializeGraphPanel();
         setupButtons();
     }
 
+    /**
+     * Initializes the graph panel, sets its preferred size, and adds it to the scroll pane.
+     * Also sets up the top panel containing informational labels.
+     */
     private void initializeGraphPanel() {
         graph = new Graph();
         graphPanel = new GraphPanel(graph);
@@ -43,6 +56,9 @@ public class MainWindow extends JPanel {
         setupTopPanel();
     }
 
+    /**
+     * Sets up the top panel containing an informational label.
+     */
     private void setupTopPanel() {
         JLabel infoLabel = new JLabel("Dijkstra Shortest Path Visualiser");
         infoLabel.setForeground(new Color(230, 220, 250));
@@ -53,6 +69,9 @@ public class MainWindow extends JPanel {
         add(topPanel, BorderLayout.NORTH);
     }
 
+    /**
+     * Sets up buttons for actions and adds them to the button panel.
+     */
     private void setupButtons() {
         JButton runButton = createButton("run", this::runDijkstraAlgorithm);
         JButton resetButton = createButton("reset", e -> resetGraph());
@@ -67,6 +86,13 @@ public class MainWindow extends JPanel {
         add(buttonPanel, BorderLayout.SOUTH);
     }
 
+    /**
+     * Creates a button with the specified icon and action listener.
+     *
+     * @param iconName       The name of the icon resource.
+     * @param actionListener The action listener for the button.
+     * @return The created JButton.
+     */
     private JButton createButton(String iconName, ActionListener actionListener) {
         JButton button = new JButton();
         setupIcon(button, iconName);
@@ -74,6 +100,12 @@ public class MainWindow extends JPanel {
         return button;
     }
 
+    /**
+     * Sets up the icon for a button using the specified image resource.
+     *
+     * @param button The JButton for which to set up the icon.
+     * @param img    The name of the image resource.
+     */
     private void setupIcon(JButton button, String img) {
         try {
             Image icon = ImageIO.read(Objects.requireNonNull(getClass().getResource("/resources/" + img + ".png")));
@@ -87,6 +119,11 @@ public class MainWindow extends JPanel {
         }
     }
 
+    /**
+     * Runs the Dijkstra algorithm on the graph and updates the graph panel with the result.
+     *
+     * @param event The action event triggering the method.
+     */
     private void runDijkstraAlgorithm(ActionEvent event) {
         DijkstraAlgorithm dijkstraAlgorithm = new DijkstraAlgorithm(graph);
         try {
@@ -97,10 +134,16 @@ public class MainWindow extends JPanel {
         }
     }
 
+    /**
+     * Resets the graph by calling the reset method of the graph panel.
+     */
     private void resetGraph() {
         graphPanel.reset();
     }
 
+    /**
+     * Displays information about the application's functionalities in a dialog box.
+     */
     private void displayInfo() {
         JOptionPane.showMessageDialog(null,
                 "Click on empty space to create a new node\n" +
