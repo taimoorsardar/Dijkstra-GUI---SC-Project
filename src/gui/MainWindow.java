@@ -26,8 +26,8 @@ public class MainWindow extends JPanel {
     private static final int SCROLL_PANE_WIDTH = 750;
     private static final int SCROLL_PANE_HEIGHT = 500;
 
-    private Graph graph;
-    private GraphPanel graphPanel;
+    public Graph graph;
+    public GraphPanel graphPanel;
 
     /**
      * Constructs the main window with the layout and initializes the graph panel.
@@ -93,7 +93,7 @@ public class MainWindow extends JPanel {
      * @param actionListener The action listener for the button.
      * @return The created JButton.
      */
-    private JButton createButton(String iconName, ActionListener actionListener) {
+    public JButton createButton(String iconName, ActionListener actionListener) {
         JButton button = new JButton();
         setupIcon(button, iconName);
         button.addActionListener(actionListener);
@@ -106,7 +106,7 @@ public class MainWindow extends JPanel {
      * @param button The JButton for which to set up the icon.
      * @param img    The name of the image resource.
      */
-    private void setupIcon(JButton button, String img) {
+    public void setupIcon(JButton button, String img) {
         try {
             Image icon = ImageIO.read(Objects.requireNonNull(getClass().getResource("/resources/" + img + ".png")));
             ImageIcon imageIcon = new ImageIcon(icon);
@@ -124,7 +124,7 @@ public class MainWindow extends JPanel {
      *
      * @param event The action event triggering the method.
      */
-    private void runDijkstraAlgorithm(ActionEvent event) {
+    public void runDijkstraAlgorithm(ActionEvent event) {
         DijkstraAlgorithm dijkstraAlgorithm = new DijkstraAlgorithm(graph);
         try {
             dijkstraAlgorithm.run();
@@ -137,14 +137,14 @@ public class MainWindow extends JPanel {
     /**
      * Resets the graph by calling the reset method of the graph panel.
      */
-    private void resetGraph() {
+    public void resetGraph() {
         graphPanel.reset();
     }
 
     /**
      * Displays information about the application's functionalities in a dialog box.
      */
-    private void displayInfo() {
+    public void displayInfo() {
         JOptionPane.showMessageDialog(null,
                 "Click on empty space to create a new node\n" +
                         "Drag from node to node to create an edge\n" +
