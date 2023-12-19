@@ -52,10 +52,15 @@ public class DrawUtils {
     }
 
     public static Color parseColor(String colorStr) {
-        return new Color(
-                Integer.valueOf(colorStr.substring(1, 3), 16),
-                Integer.valueOf(colorStr.substring(3, 5), 16),
-                Integer.valueOf(colorStr.substring(5, 7), 16));
+        try {
+            return new Color(
+                    Integer.valueOf(colorStr.substring(1, 3), 16),
+                    Integer.valueOf(colorStr.substring(3, 5), 16),
+                    Integer.valueOf(colorStr.substring(5, 7), 16));
+        } catch (NumberFormatException | StringIndexOutOfBoundsException e) {
+            // Handle color parsing errors gracefully
+            return Color.BLACK;
+        }
     }
 
     public void drawWeight(Edge edge) {
@@ -69,13 +74,15 @@ public class DrawUtils {
     }
 
     public void drawPath(List<Node> path) {
-        List<Edge> edges = new ArrayList<>();
-        for (int i = 0; i < path.size() - 1; i++) {
-            edges.add(new Edge(path.get(i), path.get(i + 1)));
-        }
+        if (path != null) {
+            List<Edge> edges = new ArrayList<>();
+            for (int i = 0; i < path.size() - 1; i++) {
+                edges.add(new Edge(path.get(i), path.get(i + 1)));
+            }
 
-        for (Edge edge : edges) {
-            drawPath(edge);
+            for (Edge edge : edges) {
+                drawPath(edge);
+            }
         }
     }
 
@@ -121,28 +128,23 @@ public class DrawUtils {
     }
 
     public void drawSourceNode(Node node) {
-        g.setColor(NODE_COLOR);
-        drawCircle(node.getX(), node.getY(), DEFAULT_RADIUS);
-
-        radius -= TEXT_OFFSET;
-        g.setColor(HOVER_COLOR);
-        drawCircle(node.getX(), node.getY(), radius);
-
-        radius += TEXT_OFFSET;
-        g.setColor(NODE_COLOR);
-        drawCentreText(String.valueOf(node.getId()), node.getX(), node.getY());
+        drawColoredNode(node, "#0356fc", "#03cffc");
     }
 
     public void drawDestinationNode(Node node) {
-        g.setColor(parseColor("#F44336"));
+        drawColoredNode(node, "#F44336", "#FFCDD2");
+    }
+
+    private void drawColoredNode(Node node, String nodeColor, String hoverColor) {
+        g.setColor(parseColor(nodeColor));
         drawCircle(node.getX(), node.getY(), DEFAULT_RADIUS);
 
         radius -= TEXT_OFFSET;
-        g.setColor(parseColor("#FFCDD2"));
+        g.setColor(parseColor(hoverColor));
         drawCircle(node.getX(), node.getY(), radius);
 
         radius += TEXT_OFFSET;
-        g.setColor(parseColor("#F44336"));
+        g.setColor(parseColor(nodeColor));
         drawCentreText(String.valueOf(node.getId()), node.getX(), node.getY());
     }
 
