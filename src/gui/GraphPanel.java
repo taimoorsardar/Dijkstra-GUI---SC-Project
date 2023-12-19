@@ -11,6 +11,10 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.List;
 
+/**
+ * The GraphPanel class represents a JPanel for drawing and interacting with a graph.
+ * It handles mouse events for creating, deleting, and modifying nodes and edges.
+ */
 public class GraphPanel extends JPanel implements MouseListener, MouseMotionListener {
 
     private DrawUtils drawUtils;
@@ -26,18 +30,31 @@ public class GraphPanel extends JPanel implements MouseListener, MouseMotionList
 
     private static final double OVERLAPPING_RADIUS_FACTOR = 2.5;
 
+    /**
+     * Constructs a new GraphPanel with the specified graph.
+     *
+     * @param graph The graph to be displayed and interacted with.
+     */
     public GraphPanel(Graph graph) {
         this.graph = graph;
         addMouseListener(this);
         addMouseMotionListener(this);
     }
 
+    /**
+     * Sets the path to be displayed on the graph.
+     *
+     * @param path The list of nodes representing the path.
+     */
     public void setPath(List<Node> path) {
         this.pathList = path;
         hoveredEdge = null;
         repaint();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -77,6 +94,9 @@ public class GraphPanel extends JPanel implements MouseListener, MouseMotionList
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void mouseClicked(MouseEvent event) {
         Node selected = null;
@@ -155,11 +175,17 @@ public class GraphPanel extends JPanel implements MouseListener, MouseMotionList
         repaint();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void mousePressed(MouseEvent e) {
         // Leave empty if not used
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void mouseReleased(MouseEvent e) {
         for (Node node : graph.getNodes()) {
@@ -174,16 +200,25 @@ public class GraphPanel extends JPanel implements MouseListener, MouseMotionList
         repaint();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void mouseEntered(MouseEvent e) {
         // Leave empty if not used
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void mouseExited(MouseEvent e) {
         // Leave empty if not used
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void mouseDragged(MouseEvent e) {
         hoveredNode = null;
@@ -209,6 +244,9 @@ public class GraphPanel extends JPanel implements MouseListener, MouseMotionList
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void mouseMoved(MouseEvent e) {
         if (e.isControlDown()) {
@@ -231,6 +269,9 @@ public class GraphPanel extends JPanel implements MouseListener, MouseMotionList
         repaint();
     }
 
+    /**
+     * Resets the GraphPanel by clearing the graph and resetting selected and hovered states.
+     */
     public void reset() {
         graph.clear();
         selectedNode = null;
