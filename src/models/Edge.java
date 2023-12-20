@@ -1,50 +1,49 @@
-Edge class:
-
 package models;
 
 /**
- * Represents an edge connecting two nodes in a graph.
+ * The Edge class represents an edge between two nodes in a graph.
+ * It contains information about the nodes it connects and its weight.
  */
 public class Edge {
-    private static final int DEFAULT_WEIGHT = 1;
 
-    private Node startNode;
-    private Node endNode;
-    private int weight = DEFAULT_WEIGHT;
+    // Fields
+    private Node one;       // First node of the edge
+    private Node two;       // Second node of the edge
+    private int weight = 1;  // Weight of the edge (default value is 1)
 
     /**
-     * Constructs an Edge object with two connected nodes.
+     * Constructs an Edge between two nodes.
      *
-     * @param startNode The starting node of the edge.
-     * @param endNode   The ending node of the edge.
+     * @param one The first node of the edge.
+     * @param two The second node of the edge.
      */
-    public Edge(Node startNode, Node endNode) {
-        this.startNode = startNode;
-        this.endNode = endNode;
+    public Edge(Node one, Node two) {
+        this.one = one;
+        this.two = two;
     }
 
     /**
-     * Gets the starting node of the edge.
+     * Gets the first node of the edge.
      *
-     * @return The starting node.
+     * @return The first node of the edge.
      */
-    public Node getStartNode() {
-        return startNode;
+    public Node getNodeOne() {
+        return one;
     }
 
     /**
-     * Gets the ending node of the edge.
+     * Gets the second node of the edge.
      *
-     * @return The ending node.
+     * @return The second node of the edge.
      */
-    public Node getEndNode() {
-        return endNode;
+    public Node getNodeTwo() {
+        return two;
     }
 
     /**
      * Sets the weight of the edge.
      *
-     * @param weight The new weight value.
+     * @param weight The weight to set for the edge.
      */
     public void setWeight(int weight) {
         this.weight = weight;
@@ -53,40 +52,41 @@ public class Edge {
     /**
      * Gets the weight of the edge.
      *
-     * @return The weight value.
+     * @return The weight of the edge.
      */
     public int getWeight() {
         return weight;
     }
 
     /**
-     * Checks if the given node is part of the edge.
+     * Checks whether the edge contains a specific node.
      *
-     * @param node The node to check.
-     * @return True if the node is part of the edge, false otherwise.
+     * @param node The node to check for in the edge.
+     * @return True if the edge contains the node, false otherwise.
      */
-    public boolean containsNode(Node node) {
-        return startNode == node || endNode == node;
+    public boolean hasNode(Node node) {
+        return one == node || two == node;
     }
 
     /**
-     * Checks if the given edge is equal to this edge.
+     * Checks whether two edges are equal.
      *
-     * @param edge The edge to compare.
-     * @return True if the edges are equal, false otherwise.
+     * @param edge The edge to compare with.
+     * @return True if the edges are equal (connecting the same nodes), false otherwise.
      */
     public boolean equals(Edge edge) {
-        return (startNode == edge.startNode && endNode == edge.endNode) ||
-                (startNode == edge.endNode && endNode == edge.startNode);
+        return (one == edge.one && two == edge.two) || (one == edge.two && two == edge.one);
     }
 
     /**
      * Returns a string representation of the edge.
      *
-     * @return String representation of the edge.
+     * @return A string representation of the edge, showing the IDs of connected nodes.
      */
     @Override
     public String toString() {
-        return "Edge ~ " + getStartNode().getId() + " - " + getEndNode().getId();
+        return "Edge ~ "
+                + getNodeOne().getId() + " - "
+                + getNodeTwo().getId();
     }
 }
