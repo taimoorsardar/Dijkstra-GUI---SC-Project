@@ -4,8 +4,14 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents a graph with nodes and edges for various graph algorithms.
+ * The graph can be used for pathfinding and related applications.
+ */
 public class Graph {
-    private int count = 1;
+    private static final int INITIAL_NODE_ID = 1;
+
+    private int count = INITIAL_NODE_ID;
     private List<Node> nodes = new ArrayList<>();
     private List<Edge> edges = new ArrayList<>();
 
@@ -14,103 +20,122 @@ public class Graph {
 
     private boolean solved = false;
 
-    public void setSolved(boolean solved) {
-        this.solved = solved;
-    }
-
-    public boolean isSolved() {
-        return solved;
-    }
-
-    public void setNodes(List<Node> nodes){
-        this.nodes = nodes;
-    }
-
-    public List<Node> getNodes(){
-        return nodes;
-    }
-
-    public void setEdges(List<Edge> edges){
-        this.edges = edges;
-    }
-
-    public List<Edge> getEdges(){
-        return edges;
-    }
-
-    public boolean isNodeReachable(Node node){
-        for(Edge edge : edges)
-            if(node == edge.getNodeOne() || node == edge.getNodeTwo())
-                return true;
-
-        return false;
-    }
-
-    public void setSource(Node node){
-        if(nodes.contains(node))
+    /**
+     * Sets the source node for the graph.
+     * If the provided node is in the graph, it becomes the source.
+     *
+     * @param node The source node to set.
+     * @throws IllegalArgumentException if the node is not in the list of nodes.
+     */
+    public void setSource(Node node) {
+        if (nodes.contains(node)) {
             source = node;
-    }
-
-    public void setDestination(Node node){
-        if(nodes.contains(node))
-            destination = node;
-    }
-
-    public Node getSource(){
-        return source;
-    }
-
-    public Node getDestination(){
-        return destination;
-    }
-
-    public boolean isSource(Node node){
-        return node == source;
-    }
-
-    public boolean isDestination(Node node){
-        return node == destination;
-    }
-
-    public void addNode(Point coord){
-        Node node = new Node(coord);
-        addNode(node);
-    }
-
-    public void addNode(Node node){
-        node.setId(count++);
-        nodes.add(node);
-        if(node.getId()==1)
-            source = node;
-    }
-
-    public void addEdge(Edge new_edge){
-        boolean added = false;
-        for(Edge edge : edges){
-            if(edge.equals(new_edge)){
-                added = true;
-                break;
-            }
+        } else {
+            throw new IllegalArgumentException("Source node must be in the list of nodes.");
         }
-        if(!added)
-            edges.add(new_edge);
     }
 
-    public void deleteNode(Node node){
+    /**
+     * Sets the destination node for the graph.
+     * If the provided node is in the graph, it becomes the destination.
+     *
+     * @param node The destination node to set.
+     * @throws IllegalArgumentException if the node is not in the list of nodes.
+     */
+    public void setDestination(Node node) {
+        if (nodes.contains(node)) {
+            destination = node;
+        } else {
+            throw new IllegalArgumentException("Destination node must be in the list of nodes.");
+        }
+    }
+
+    /**
+     * Gets the count of nodes in the graph.
+     *
+     * @return The count of nodes in the graph.
+     */
+    public int getNodeCount() {
+        return count;
+    }
+
+    /**
+     * Checks if a node is the first node added to the graph.
+     *
+     * @param node The node to check.
+     * @return true if the node is the first node, false otherwise.
+     */
+    private boolean isFirstNode(Node node) {
+        return node.getId() == INITIAL_NODE_ID;
+    }
+
+    /**
+     * Adds a new node to the graph with the specified coordinates.
+     *
+     * @param coordinates The coordinates of the new node.
+     * @return true if the added node is the first node, false otherwise.
+     */
+    public boolean addNode(Point coordinates) {
+        Node newNode = new Node(coordinates);
+        return addNode(newNode);
+    }
+
+    /**
+     * Adds the provided node to the graph.
+     *
+     * @param node The node to add.
+     * @return true if the added node is the first node, false otherwise.
+     */
+    private boolean addNode(Node node) {
+        node.setId(count++);
+        boolean isFirst = isFirstNode(node);
+        nodes.add(node);
+
+        if (isFirst) {
+            source = node;
+        }
+
+        return isFirst;
+    }
+
+    /**
+     * Adds a new edge to the graph.
+     * If an equivalent edge already exists, it will not be added.
+     *
+     * @param newEdge The new edge to add.
+     * @return true if the edge is added, false if an equivalent edge already exists.
+     */
+    public boolean addEdge(Edge newEdge) {
+        boolean isEdgeAdded = edges.stream().noneMatch(existingEdge -> existingEdge.equals(newEdge));
+
+        if (isEdgeAdded) {
+            edges.add(newEdge);
+        }
+
+        return isEdgeAdded;
+    }
+
+    /**
+     * Deletes the specified node from the graph along with its associated edges.
+     *
+     * @param node The node to delete.
+     */
+    public void deleteNode(Node node) {
         List<Edge> delete = new ArrayList<>();
-        for (Edge edge : edges){
-            if(edge.hasNode(node)){
+        for (Edge edge : edges) {
+            if (hasNodeInEdges(node)) {
                 delete.add(edge);
             }
         }
-        for (Edge edge : delete){
-            edges.remove(edge);
-        }
+        edges.removeAll(delete);
         nodes.remove(node);
     }
 
-    public void clear(){
-        count = 1;
+    /**
+     * Clears the graph, resetting node count, nodes, edges, solved status, source, and destination.
+     */
+    public void clear() {
+        count = INITIAL_NODE_ID;
         nodes.clear();
         edges.clear();
         solved = false;
@@ -119,4 +144,18 @@ public class Graph {
         destination = null;
     }
 
+    /**
+     * Checks if a node is present in any of the edges in the graph.
+     *
+     * @param node The node to check.
+     * @return true if the node is present in any of the edges, false otherwise.
+     */
+    private boolean hasNodeInEdges(Node node) {
+        for (Edge edge : edges) {
+            if (node == edge.getNodeOne() || node == edge.getNodeTwo()) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
