@@ -95,6 +95,7 @@ public class GraphPanel extends JPanel implements MouseListener, MouseMotionList
     }
 
     /**
+     * Triggers when the mouse is clicked on graph panel / interactive window
      * {@inheritDoc}
      */
     @Override
@@ -176,6 +177,7 @@ public class GraphPanel extends JPanel implements MouseListener, MouseMotionList
     }
 
     /**
+     * Triggers when the mouse is pressed only on graph panel / interactive window
      * {@inheritDoc}
      */
     @Override
@@ -201,6 +203,7 @@ public class GraphPanel extends JPanel implements MouseListener, MouseMotionList
     }
 
     /**
+     * Triggers when the mouse is enters some region in graph panel / interactive window
      * {@inheritDoc}
      */
     @Override
@@ -209,6 +212,7 @@ public class GraphPanel extends JPanel implements MouseListener, MouseMotionList
     }
 
     /**
+     * Triggers when the mouse exits some region in graph panel / interactive window
      * {@inheritDoc}
      */
     @Override
@@ -217,6 +221,7 @@ public class GraphPanel extends JPanel implements MouseListener, MouseMotionList
     }
 
     /**
+     * Triggers when the mouse is dragged (clicked with right or left mouse button pressed) in graph panel / interactive window
      * {@inheritDoc}
      */
     @Override
@@ -245,6 +250,7 @@ public class GraphPanel extends JPanel implements MouseListener, MouseMotionList
     }
 
     /**
+     * Triggers when the mouse is moved on graph panel / interactive window
      * {@inheritDoc}
      */
     @Override
