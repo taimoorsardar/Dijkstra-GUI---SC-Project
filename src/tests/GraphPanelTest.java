@@ -22,11 +22,24 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Testing strategy for GraphPanel class:
+ * 
  * 1. Test setting and getting path.
+ * 
  * 2. Test adding, deleting, and moving nodes.
+ * 
  * 3. Test adding, deleting, and modifying edges.
+ * 
  * 4. Test setting source and destination nodes.
+ * 
  * 5. Test overlapping node prevention.
+ * 
+ * 6.Testing through different keys like Ctrl pressed,etc.
+ * 
+ * 7. Tests different cases through Mouse-click, Drag and release events
+ * 
+ * accordingly.
+ * 
+ * 
  */
 class GraphPanelTest {
 
@@ -53,12 +66,12 @@ class GraphPanelTest {
     void testAddNodeOnEdge() {
         // Test adding a node on an existing edge
         graph.addNode(new Point(0, 0));
-        graph.addNode(new Point(100, 100));
+        graph.addNode(new Point(150, 150));
         graph.addEdge(new Edge(graph.getNodes().get(0), graph.getNodes().get(1)));
         MouseEvent addNodeOnEdgeEvent = new MouseEvent(graphPanel, MouseEvent.MOUSE_CLICKED,
-                System.currentTimeMillis(), 0, 50, 50, 1, false);
+                System.currentTimeMillis(), 0, 75, 75, 1, false);
         graphPanel.mouseClicked(addNodeOnEdgeEvent);
-        assertEquals(2, graph.getNodes().size(), "Node should be added on an existing edge");
+        assertEquals(3, graph.getNodes().size(), "Node should be added on an existing edge");
     }
 
     @Test
@@ -112,5 +125,43 @@ class GraphPanelTest {
         graphPanel.mouseClicked(deleteEdgeEvent);
         assertEquals(0, graph.getEdges().size(), "Edge should not be deleted with null input");
     }
+    
+    @Test
+    void testAddAndDeleteEdges() {
+        // Test adding and deleting edges with Control and Shift keys
+        graph.addNode(new Point(50, 50));
+        graph.addNode(new Point(100, 100));
+
+        // Simulate adding an edge with Control key
+        MouseEvent addEdgeEvent = new MouseEvent(graphPanel, MouseEvent.MOUSE_DRAGGED,
+                System.currentTimeMillis(), 0, 60, 60, 1, true);
+        graphPanel.mouseDragged(addEdgeEvent);
+
+        MouseEvent add1EdgeEvent = new MouseEvent(graphPanel, MouseEvent.MOUSE_RELEASED,
+                System.currentTimeMillis(), 0, 90, 90, 1, true);
+        graphPanel.mouseReleased(add1EdgeEvent);
+
+        assertEquals(1, graph.getEdges().size(), "Edge should be added with drag and release");
+    }
+    
+    @Test
+    void testSetSourceNode() {
+        // Create a graph panel and a graph
+        Graph graph = new Graph();
+        GraphPanel graphPanel = new GraphPanel(graph);
+
+        // Add a node to the graph
+        graph.addNode(new Point(50, 50));
+
+        // Simulate a left-click on the node
+        MouseEvent leftClickEvent = new MouseEvent(graphPanel, MouseEvent.MOUSE_CLICKED,
+                System.currentTimeMillis(), 0, 50, 50, 1, false);
+        graphPanel.mouseClicked(leftClickEvent);
+
+        // Check if the node is set as the source node
+        assertTrue(graph.isSource(graph.getNodes().get(0)),
+                "Left-click should set the node as the source node");
+    }
+
 
 }
